@@ -22,5 +22,6 @@
   },
   "dependencies": {
     "normalizr": "^3.6.1"
-  }
+  },
+  "gitHead": "8e36a2342ec7c0b801878d80eab0ac1f20bee5f4"
 }

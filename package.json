@@ -14,5 +14,6 @@
   "workspaces": [
     "packages/**",
     "example/**"
-  ]
+  ],
+  "repository": "https://github.com/naporin0624/surikiri.git"
 }
