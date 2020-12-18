@@ -1,5 +1,6 @@
 // normalize
-import normalizr, { schema } from "normalizr";
+import { schema, normalize as n, denormalize as den } from "normalizr";
+
 // utility
 type Nothing = undefined | null;
 type Flatten<T> = T extends Array<infer U> ? Flatten<U> : T;
@@ -47,14 +48,14 @@ function createEntity<E>(name: E extends Entity<infer U> ? U : never, references
   return new schema.Entity<E>(name, references);
 }
 function normalize<T>(data: T, schema: Schema<T>): Normalized<T> {
-  return normalizr.normalize(data, schema);
+  return n(data, schema);
 }
 function denormalize<D extends NestArray<E["id"]>, E extends Entity<string>>(
   data: D,
   schema: ReplaceArray<D, schema.Entity<E>>,
   entities: Entities<E>,
 ): E {
-  return normalizr.denormalize(data, schema, entities);
+  return den(data, schema, entities);
 }
 
 export { Entity, Normalize, MapEntities, createEntity, normalize, denormalize };
