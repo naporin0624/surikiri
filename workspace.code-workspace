@@ -7,5 +7,7 @@
 			"path": "./packages/core"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"typescript.tsdk": "surikiri/node_modules/typescript/lib"
+	}
 }

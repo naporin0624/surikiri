@@ -1,7 +1,14 @@
 // normalize
 import normalizr, { schema } from "normalizr";
+// utility
+type Nothing = undefined | null;
+type Flatten<T> = T extends Array<infer U> ? Flatten<U> : T;
+type NestArray<T> = T | Array<NestArray<T>>;
+type ReplaceArray<T, V> = T extends Array<infer U> ? Array<ReplaceArray<U, V>> : V;
+type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void
+  ? I
+  : never;
 
-import { Flatten, NestArray, Nothing, ReplaceArray, UnionToIntersection } from "./utility";
 
 declare const $entity: unique symbol;
 type ID = string | number;
