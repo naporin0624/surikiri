@@ -1,7 +1,7 @@
 {
   "name": "@surikiri/core",
   "version": "0.0.6",
-  "description": "> TODO: description",
+  "description": "typed json object normalize functions",
   "author": "napori0624 <naporin0624@gmail.com>",
   "homepage": "",
   "license": "MIT",
