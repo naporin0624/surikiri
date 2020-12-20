@@ -1,0 +1,37 @@
+name: publish
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+env:
+  CI: true
+  NOM_TOKEN: ${{ secrets.npmToken }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache Dependency
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Dependency install
+        run: |
+          yarn install
+          yarn lerna bootstrap
+      - run: yarn lerna run build
+      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+      - run: yarn lerna publish

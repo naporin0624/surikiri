@@ -20,6 +20,7 @@
     "access": "public"
   },
   "scripts": {
+    "lint": "eslint --ext .ts,.tsx src",
     "prebuild": "rm -rf lib",
     "build": "tsc --noEmit && rollup -c ./rollup.config.js"
   },

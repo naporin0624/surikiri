@@ -1,0 +1,33 @@
+name: Push CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  checkLintAndTest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 13.x, 14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache Dependency
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Dependency install
+        run: |
+          yarn install
+          yarn lerna bootstrap
+      - run: yarn lerna run lint
+      - run: yarn lerna run test
+      - run: yarn lerna run build
