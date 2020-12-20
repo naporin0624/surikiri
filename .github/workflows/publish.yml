@@ -34,4 +34,4 @@ jobs:
           yarn lerna bootstrap
       - run: yarn lerna run build
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-      - run: yarn lerna publish
+      - run: yarn lerna publish from-package --yes
