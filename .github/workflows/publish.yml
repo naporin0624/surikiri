@@ -1,16 +1,20 @@
-name: Push CI
-
+name: publish
 on:
-  push:
-    branches-ignore:
+  pull_request:
+    branches:
       - main
+    types: [closed]
+
+env:
+  CI: true
+  NOM_TOKEN: ${{ secrets.npmToken }}
 
 jobs:
-  checkLintAndTest:
+  publish:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x, 13.x, 14.x]
+        node-version: [14]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -28,6 +32,6 @@ jobs:
         run: |
           yarn install
           yarn lerna bootstrap
-      - run: yarn lerna run lint
-      - run: yarn lerna run test
       - run: yarn lerna run build
+      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+      - run: yarn lerna publish
